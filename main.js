@@ -365,18 +365,23 @@ let FormService = class FormService {
     var _this2 = this;
 
     return (0,C_proyectos_defensoria_Camara_defensoria_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      console.log(_this2.form); // const form = await this.storage.get('form');
-
-      _this2.form.next(form);
-
       const latlng = yield _this2.storage.get('latlng');
-      console.log(latlng);
       const lat = latlng[0];
       const lng = latlng[1];
+      _this2.form.getValue().victim = form.victim;
+      _this2.form.getValue().reason = form.reason;
+      _this2.form.getValue().agressor = form.agressor;
+      _this2.form.getValue().agressorGender = form.agressorGender;
+      _this2.form.getValue().age = form.age;
+      _this2.form.getValue().gender = form.gender;
+      _this2.form.getValue().place = form.place;
       _this2.form.getValue().latitude = lat;
       _this2.form.getValue().longitude = lng;
       console.log(_this2.form.getValue());
       yield _this2.storage.set('form', form);
+
+      _this2.form.next(_this2.form.getValue());
+
       return Promise.resolve(true);
     })();
   }
