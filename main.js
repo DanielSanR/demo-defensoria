@@ -128,12 +128,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 2560);
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser */ 4497);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/router */ 124);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/router */ 124);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ 3819);
 /* harmony import */ var _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/storage-angular */ 7566);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common/http */ 8987);
 /* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app-routing.module */ 158);
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app.component */ 5041);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ 2508);
+
 
 
 
@@ -148,8 +150,8 @@ let AppModule = class AppModule {
 AppModule = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.NgModule)({
         declarations: [_app_component__WEBPACK_IMPORTED_MODULE_1__.AppComponent],
-        imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__.BrowserModule, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonicModule.forRoot(), _app_routing_module__WEBPACK_IMPORTED_MODULE_0__.AppRoutingModule, _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_6__.IonicStorageModule.forRoot(), _angular_common_http__WEBPACK_IMPORTED_MODULE_7__.HttpClientModule],
-        providers: [{ provide: _angular_router__WEBPACK_IMPORTED_MODULE_8__.RouteReuseStrategy, useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonicRouteStrategy }],
+        imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__.BrowserModule, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonicModule.forRoot(), _app_routing_module__WEBPACK_IMPORTED_MODULE_0__.AppRoutingModule, _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_6__.IonicStorageModule.forRoot(), _angular_common_http__WEBPACK_IMPORTED_MODULE_7__.HttpClientModule, _angular_forms__WEBPACK_IMPORTED_MODULE_8__.FormsModule],
+        providers: [{ provide: _angular_router__WEBPACK_IMPORTED_MODULE_9__.RouteReuseStrategy, useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonicRouteStrategy }],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_1__.AppComponent],
     })
 ], AppModule);
@@ -279,6 +281,23 @@ OnboardingGuard = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
 
 /***/ }),
 
+/***/ 5080:
+/*!********************************!*\
+  !*** ./src/app/models/Help.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Help": () => (/* binding */ Help)
+/* harmony export */ });
+class Help {
+}
+
+
+/***/ }),
+
 /***/ 9048:
 /*!******************************************!*\
   !*** ./src/app/services/form.service.ts ***!
@@ -291,11 +310,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "FormService": () => (/* binding */ FormService)
 /* harmony export */ });
 /* harmony import */ var C_proyectos_defensoria_Camara_defensoria_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 4929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 2560);
-/* harmony import */ var _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ionic/storage-angular */ 190);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ 4505);
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ 8987);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 2560);
+/* harmony import */ var _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ionic/storage-angular */ 190);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ 4505);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ 8987);
+/* harmony import */ var _models_Help__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models/Help */ 5080);
+
 
 
 
@@ -306,7 +327,8 @@ let FormService = class FormService {
   constructor(storage, http) {
     this.storage = storage;
     this.http = http;
-    this.optionChosed = new rxjs__WEBPACK_IMPORTED_MODULE_1__.BehaviorSubject(null);
+    this.form = new rxjs__WEBPACK_IMPORTED_MODULE_2__.BehaviorSubject(new _models_Help__WEBPACK_IMPORTED_MODULE_1__.Help());
+    this.optionChosed = new rxjs__WEBPACK_IMPORTED_MODULE_2__.BehaviorSubject(null);
     this.loadForm();
   }
 
@@ -321,6 +343,13 @@ let FormService = class FormService {
           _this.optionChosed.next(false);
         }
       });
+      yield _this.storage.get('form').then(form => {
+        if (form != null) {
+          _this.form.next(form);
+        } else {
+          _this.form.next(new _models_Help__WEBPACK_IMPORTED_MODULE_1__.Help());
+        }
+      });
     })();
   }
 
@@ -332,15 +361,63 @@ let FormService = class FormService {
     return this.http.get('../../assets/datos/form.json');
   }
 
+  saveForm(form) {
+    var _this2 = this;
+
+    return (0,C_proyectos_defensoria_Camara_defensoria_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      console.log(_this2.form); // const form = await this.storage.get('form');
+
+      _this2.form.next(form);
+
+      const latlng = yield _this2.storage.get('latlng');
+      console.log(latlng);
+      const lat = latlng[0];
+      const lng = latlng[1];
+      _this2.form.getValue().latitude = lat;
+      _this2.form.getValue().longitude = lng;
+      console.log(_this2.form.getValue());
+      yield _this2.storage.set('form', form);
+      return Promise.resolve(true);
+    })();
+  }
+
+  setPerfil(perfil) {
+    var _this3 = this;
+
+    return (0,C_proyectos_defensoria_Camara_defensoria_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const latlng = yield _this3.storage.get('latlng');
+      console.log(latlng);
+      const lat = latlng[0];
+      const lng = latlng[1];
+      console.log(_this3.form.getValue());
+      _this3.form.getValue().name = perfil.nombre;
+      _this3.form.getValue().phone = perfil.telefono;
+      _this3.form.getValue().email = perfil.correo;
+      _this3.form.getValue().address = perfil.direccion;
+      _this3.form.getValue().latitude = lat;
+      _this3.form.getValue().longitude = lng;
+      console.log(_this3.form.getValue());
+
+      _this3.form.next(_this3.form.getValue());
+
+      yield _this3.storage.set('form', _this3.form.getValue());
+      return Promise.resolve(true);
+    })();
+  }
+
+  getForm() {
+    return this.form.asObservable();
+  }
+
 };
 
 FormService.ctorParameters = () => [{
-  type: _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_2__.Storage
+  type: _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_3__.Storage
 }, {
-  type: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__.HttpClient
+  type: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__.HttpClient
 }];
 
-FormService = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Injectable)({
+FormService = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Injectable)({
   providedIn: 'root'
 })], FormService);
 

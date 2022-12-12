@@ -111,10 +111,10 @@ let Tab1Page = class Tab1Page {
         this.formService = formService;
         this.router = router;
         this.values = [
-            { id: 1, text: 'Pedir Ayuda', icon: 'microfono.svg', page: '/formulario' },
-            { id: 2, text: 'Consejos', icon: 'faq.svg', page: 'principal/preguntas-frecuentes' },
-            { id: 3, text: 'Sitio Web', icon: 'globe-outline.svg', page: '' },
-            { id: 4, text: 'Violentometro', icon: 'thermometer-outline.svg', page: '' },
+            { id: 1, text: 'Pedir Ayuda', icon: 'microfono.svg', page: '/formulario', externalURL: false },
+            { id: 2, text: 'Consejos', icon: 'faq.svg', page: 'principal/preguntas-frecuentes', externalURL: false },
+            { id: 3, text: 'Sitio Web', icon: 'globe-outline.svg', page: 'https://defensoriadennya.misiones.gob.ar/', externalURL: true },
+            { id: 4, text: 'Violentometro', icon: 'thermometer-outline.svg', page: '', externalURL: false },
         ];
         this.$selected = this.formService.optionChosed;
     }
@@ -134,9 +134,11 @@ let Tab1Page = class Tab1Page {
     ionViewDidLeave() {
         this.selected = '';
     }
-    redirect(page) {
-        this.router.navigateByUrl(page);
-        console.log(page);
+    redirect(item) {
+        if (item.externalURL) {
+            location.assign(item.page);
+        }
+        this.router.navigateByUrl(item.page);
     }
 };
 Tab1Page.ctorParameters = () => [
@@ -171,7 +173,7 @@ module.exports = "ion-content {\n  --ion-background-color: #fff;\n  font-family:
   \************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-content [fullscreen]=\"true\">\n    <ion-grid [fixed]=\"true\" class=\"Grid\">\n        <ion-row   class=\"ion-justify-content-center ion-align-items-center\">\n            <ion-col size=\"12\">\n              <ion-item button class=\"datos\" [routerLink]=\"['/principal/perfil']\">\n                    <ion-label class=\"datos-label ion-text-center\">\n                    <p class=\"datos-label-p\">¡ Completa tus datos !</p>\n                      \n                    </ion-label>  \n                    <ion-icon class=\"datos-icon\" slot=\"end\" src=\"../../assets/icon/chevron-forward.svg\" ></ion-icon>\n                </ion-item>\n        \n            </ion-col>\n        </ion-row>\n        <ion-row class=\"Grid-row\">\n            <ion-col size=\"12\" class=\"Grid-row-col\">\n                <ion-icon src=\"../../assets/icon/home-icon1.svg\" class=\"Grid-row-col-icon\"></ion-icon>\n            </ion-col>\n        </ion-row>   \n        <ion-row class=\"Grid-row ion-justify-content-center\">\n            <ion-col class=\"Grid-row-col\" size=\"6\" *ngFor=\"let item of values\">\n            <ion-card class=\"Grid-row-col-card\" (click)=\"redirect(item.page)\">\n                <ion-card-header class=\"Grid-row-col-card-header ion-text-center\">\n                    <div align=\"center\">\n                    <ion-thumbnail style=\"width:35px;height:35px;margin-bottom:15px\">\n                        <ion-icon src=\"../../assets/icon/{{item.icon}}\" style=\"color:white;width: 25px;height: 25px;margin-top:15px\">\n                        </ion-icon>\n                    </ion-thumbnail>\n                </div>\n                </ion-card-header>\n                <ion-card-content class=\"Grid-row-col-card-content\">\n                   {{ item.text}}\n                </ion-card-content>\n            </ion-card>\n            </ion-col>\n            <ion-col class=\"ion-padding-top\" size=\"6\">\n\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n</ion-content>";
+module.exports = "<ion-content [fullscreen]=\"true\">\n    <ion-grid [fixed]=\"true\" class=\"Grid\">\n        <ion-row   class=\"ion-justify-content-center ion-align-items-center\">\n            <ion-col size=\"12\">\n              <ion-item button class=\"datos\" [routerLink]=\"['/principal/perfil']\">\n                    <ion-label class=\"datos-label ion-text-center\">\n                    <p class=\"datos-label-p\">¡ Completa tus datos !</p>\n                      \n                    </ion-label>  \n                    <ion-icon class=\"datos-icon\" slot=\"end\" src=\"../../assets/icon/chevron-forward.svg\" ></ion-icon>\n                </ion-item>\n        \n            </ion-col>\n        </ion-row>\n        <ion-row class=\"Grid-row\">\n            <ion-col size=\"12\" class=\"Grid-row-col\">\n                <ion-icon src=\"../../assets/icon/home-icon1.svg\" class=\"Grid-row-col-icon\"></ion-icon>\n            </ion-col>\n        </ion-row>   \n        <ion-row class=\"Grid-row ion-justify-content-center\">\n            <ion-col class=\"Grid-row-col\" size=\"6\" *ngFor=\"let item of values\">\n            <ion-card class=\"Grid-row-col-card\" (click)=\"redirect(item)\">\n                <ion-card-header class=\"Grid-row-col-card-header ion-text-center\">\n                    <div align=\"center\">\n                    <ion-thumbnail style=\"width:35px;height:35px;margin-bottom:15px\">\n                        <ion-icon src=\"../../assets/icon/{{item.icon}}\" style=\"color:white;width: 25px;height: 25px;margin-top:15px\">\n                        </ion-icon>\n                    </ion-thumbnail>\n                </div>\n                </ion-card-header>\n                <ion-card-content class=\"Grid-row-col-card-content\">\n                   {{ item.text}}\n                </ion-card-content>\n            </ion-card>\n            </ion-col>\n            <ion-col class=\"ion-padding-top\" size=\"6\">\n\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n</ion-content>";
 
 /***/ })
 

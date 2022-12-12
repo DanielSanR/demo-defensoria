@@ -95,16 +95,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "MapPage": () => (/* binding */ MapPage)
 /* harmony export */ });
 /* harmony import */ var C_proyectos_defensoria_Camara_defensoria_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _map_page_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./map.page.html?ngResource */ 7122);
 /* harmony import */ var _map_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./map.page.scss?ngResource */ 5621);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/core */ 2560);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/core */ 2560);
 /* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! leaflet */ 5836);
 /* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(leaflet__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var esri_leaflet_geocoder_dist_esri_leaflet_geocoder__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! esri-leaflet-geocoder/dist/esri-leaflet-geocoder */ 3158);
 /* harmony import */ var esri_leaflet_geocoder_dist_esri_leaflet_geocoder__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(esri_leaflet_geocoder_dist_esri_leaflet_geocoder__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _services_map_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/map.service */ 9947);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ 3819);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ionic/angular */ 3819);
+/* harmony import */ var _services_form_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/form.service */ 9048);
 
 
 /* eslint-disable max-len */
@@ -121,10 +122,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let MapPage = class MapPage {
-  constructor(_mapService, loadingController) {
+  constructor(_mapService, loadingController, formService) {
     this._mapService = _mapService;
     this.loadingController = loadingController;
+    this.formService = formService;
     this.properties = [];
     this.$cords = this._mapService.ltlng;
     this.key = 'AAPK895f48d83b5543ab80c5d058d510d5971uhYgfFtvdNCIB-no6TgvFEbUE-H-h6ZfPfs9GOWCpAtsp9cTGA8zFsd2DiPWwPf';
@@ -165,10 +168,12 @@ let MapPage = class MapPage {
 MapPage.ctorParameters = () => [{
   type: _services_map_service__WEBPACK_IMPORTED_MODULE_5__.MapService
 }, {
-  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.LoadingController
+  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.LoadingController
+}, {
+  type: _services_form_service__WEBPACK_IMPORTED_MODULE_6__.FormService
 }];
 
-MapPage = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_8__.Component)({
+MapPage = (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_9__.Component)({
   selector: 'app-map',
   template: _map_page_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
   styles: [_map_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__]

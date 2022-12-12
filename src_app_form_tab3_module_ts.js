@@ -100,17 +100,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Tab3Page": () => (/* binding */ Tab3Page)
 /* harmony export */ });
 /* harmony import */ var C_proyectos_defensoria_Camara_defensoria_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _tab3_page_html_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tab3.page.html?ngResource */ 9267);
 /* harmony import */ var _tab3_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tab3.page.scss?ngResource */ 8806);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 2560);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ 124);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ionic/angular */ 3819);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/core */ 2560);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ 124);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ionic/angular */ 3819);
 /* harmony import */ var swiper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! swiper */ 3587);
 /* harmony import */ var _assets_datos_DinamicForm_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../assets/datos/DinamicForm.json */ 857);
+/* harmony import */ var _models_Help__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/Help */ 5080);
+/* harmony import */ var _services_form_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/form.service */ 9048);
 
 
 
+
+/* eslint-disable @typescript-eslint/quotes */
 
 /* eslint-disable arrow-body-style */
 
@@ -119,12 +123,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 let Tab3Page = class Tab3Page {
-  constructor(router, cd, loadingController) {
+  constructor(router, formService, cd, loadingController) {
     this.router = router;
+    this.formService = formService;
     this.cd = cd;
     this.loadingController = loadingController;
     this.dinamicForm = _assets_datos_DinamicForm_json__WEBPACK_IMPORTED_MODULE_4__;
+    this.help = new _models_Help__WEBPACK_IMPORTED_MODULE_5__.Help();
     this.bandera = false;
     this.background = '#fff';
     this.backgroundChecked = '#FE910E';
@@ -137,43 +145,43 @@ let Tab3Page = class Tab3Page {
   }
 
   ngOnInit() {
-    /*     this.fillCheckbox(this.dinamicForm); */
     swiper__WEBPACK_IMPORTED_MODULE_3__["default"].use([swiper__WEBPACK_IMPORTED_MODULE_3__.Pagination, swiper__WEBPACK_IMPORTED_MODULE_3__.EffectCoverflow, swiper__WEBPACK_IMPORTED_MODULE_3__.Navigation, swiper__WEBPACK_IMPORTED_MODULE_3__.Manipulation]);
     this.finalized = false;
-    console.log(this.dinamicForm);
   }
-  /*   ionViewWillEnter(){
-    }
-    onBeforeTransition() {
-    } */
-
 
   next() {
+    this.selected = false;
     this.swiper.swiperRef.slideNext(500);
   }
 
   close() {
+    this.selected = false;
     this.router.navigateByUrl('/principal/inicio');
-  }
+  } //check
+
 
   filterItems(arr) {
     return arr.filter(el => el).map(e => e.isChecked).includes(true);
   }
 
   select(entry, arr, index) {
-    arr[index].isChecked = !arr[index].isChecked;
-    console.log(arr);
-    /*   if(!entry.isChecked) { this.isckecked = false; }
-      else {this.isckecked = true;} */
-
-    if (this.filterItems(arr)) {
-      this.isckecked = true;
+    if (!this.filterItems(arr.preguntas)) {
+      arr.preguntas[index].isChecked = true;
+    } else if (this.filterItems(arr.preguntas) && arr.multiple === true) {
+      if (arr.preguntas[index].isChecked) {
+        arr.preguntas[index].isChecked = false;
+      } else {
+        arr.preguntas[index].isChecked = true;
+      }
     } else {
-      this.isckecked = false;
+      arr.preguntas[index].isChecked = false;
     }
+
+    this.selected = this.filterItems(arr.preguntas);
 
     if (this.swiper.swiperRef.activeIndex === 6 && entry.isChecked === true) {
       this.bandera = true;
+      this.selected = true;
     } else {
       this.bandera = false;
     }
@@ -181,23 +189,10 @@ let Tab3Page = class Tab3Page {
 
   ageRange(ev) {
     this.selectedAge = ev.detail.value;
+    this.selected = true;
   }
 
-  enviar() {
-    this.bandera = false;
-    this.swiper.swiperRef.slideNext(500);
-    this.finalized = true;
-  }
-
-  checked(array) {
-    return array.filter(x => x.isChecked === true).map(x => {
-      delete x.isChecked;
-      delete x.id;
-      return x;
-    });
-  }
-
-  ionViewWillLeave() {
+  backHome() {
     var _this = this;
 
     return (0,C_proyectos_defensoria_Camara_defensoria_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
@@ -215,40 +210,106 @@ let Tab3Page = class Tab3Page {
     })();
   }
 
-  clearCheckbox() {
-    /*   this.castigos.map(x => x.isChecked = false);
-      this.victima.map(x => x.isChecked = false);
-      this.generoAgresor.map(x => x.isChecked = false);
-      this.motivos.map(x => x.isChecked = false);
-      this.agresor.map(x => x.isChecked = false);
-      this.lugar.map(x => x.isChecked = false);
-      this.genero.map(x => x.isChecked = false); */
+  enviar() {
+    var _this2 = this;
 
-    return (0,C_proyectos_defensoria_Camara_defensoria_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {})();
+    return (0,C_proyectos_defensoria_Camara_defensoria_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      _this2.bandera = false;
+      _this2.help = {
+        victim: _this2.checked(_this2.dinamicForm[0]),
+        reason: _this2.checked(_this2.dinamicForm[1]),
+        agressor: _this2.checked(_this2.dinamicForm[2]),
+        agressorGender: _this2.checked(_this2.dinamicForm[3]),
+        age: _this2.selectedAge,
+        gender: _this2.checked(_this2.dinamicForm[5]),
+        place: _this2.checked(_this2.dinamicForm[6]),
+        name: "",
+        phone: "",
+        email: "",
+        address: "",
+        latitude: "",
+        longitude: ""
+      };
+      const val = yield _this2.formService.saveForm(_this2.help);
+
+      _this2.swiper.swiperRef.slideNext(500);
+
+      _this2.finalized = true;
+    })();
+  }
+
+  singleChecked() {}
+
+  checked(array) {
+    if (array.multiple === true) {
+      return array.preguntas.filter(x => x.isChecked === true).map(x => {
+        delete x.isChecked;
+        delete x.id;
+        return x;
+      });
+    } else {
+      return array.preguntas.filter(x => x.isChecked === true)[0].val;
+    }
+
+    ;
+  }
+
+  ionViewWillLeave() {
+    var _this3 = this;
+
+    return (0,C_proyectos_defensoria_Camara_defensoria_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const loading = yield _this3.loadingController.create({
+        message: 'Cerrando Formulario...',
+        spinner: 'circles'
+      });
+      yield loading.present();
+      yield _this3.clearCheckbox();
+      _this3.finalized = false;
+
+      _this3.swiper.swiperRef.destroy(true, true);
+
+      loading.dismiss();
+    })();
+  }
+
+  clearCheckbox() {
+    var _this4 = this;
+
+    return (0,C_proyectos_defensoria_Camara_defensoria_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      _this4.dinamicForm.forEach(e => {
+        if (e.key !== 'edad') {
+          e.preguntas.map(preg => {
+            preg.isChecked = false;
+          });
+        }
+      });
+    })();
   }
 
 };
 
 Tab3Page.ctorParameters = () => [{
-  type: _angular_router__WEBPACK_IMPORTED_MODULE_5__.Router
+  type: _angular_router__WEBPACK_IMPORTED_MODULE_7__.Router
 }, {
-  type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.ChangeDetectorRef
+  type: _services_form_service__WEBPACK_IMPORTED_MODULE_6__.FormService
 }, {
-  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.LoadingController
+  type: _angular_core__WEBPACK_IMPORTED_MODULE_8__.ChangeDetectorRef
+}, {
+  type: _ionic_angular__WEBPACK_IMPORTED_MODULE_9__.LoadingController
 }];
 
 Tab3Page.propDecorators = {
   swiper: [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.ViewChild,
+    type: _angular_core__WEBPACK_IMPORTED_MODULE_8__.ViewChild,
     args: ['swiper', {
       static: false
     }]
   }]
 };
-Tab3Page = (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Component)({
+Tab3Page = (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_8__.Component)({
   selector: 'app-tab3',
   template: _tab3_page_html_ngResource__WEBPACK_IMPORTED_MODULE_1__,
-  encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_6__.ViewEncapsulation.None,
+  encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_8__.ViewEncapsulation.None,
   styles: [_tab3_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_2__]
 })], Tab3Page);
 
@@ -271,7 +332,7 @@ module.exports = ".swiper {\n  width: 100%;\n  height: auto;\n}\n\n.main-header 
   \************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-content padding  scrollEvents=\"true\" fullscreen=\"true\">\n    <!--  (slideChange)=\"slideChanges()\" (slideChangeTransitionEnd)=\"onBeforeTransition()\" -->\n    <ion-grid style=\"padding:0px\">\n        <ion-row style=\"padding:0px\">\n            <ion-col size=\"12\" style=\"padding:0px\">\n                <swiper #swiper [config]=\"config\">\n                     <ng-template swiperSlide *ngFor=\"let item of dinamicForm;index as i\">\n                        <div class=\"slide-container\"> \n                         <div class=\"main-header\"  align=\"end\">\n                            <span  style=\"color:#ffff\">\n                                <ion-icon name=\"close-circle-outline\"  class=\"close-icon\" (click)=\"close()\"></ion-icon>\n                            </span>\n                             <div class=\"ion-text-center col-titulo\">\n                                        <label><p class=\"titulo\">\n                                            {{i+1}} / 7\n                                        </p> <p class=\"titulo\">\n                                            {{item.title}}\n                                        </p></label>\n                                    </div>\n                             </div>\n                             <ion-col [ngSwitch]=\"item.type\">\n                                <ion-list *ngSwitchCase=\"'range'\" lines=\"none\"  style=\"background:#f4f4f4;\"> \n                                                <ion-range (ionChange)=\"ageRange($event)\" [min]=\"0\" [max]=\"15\" [value]=\"5\" [pin]=\"true\" [snaps]=\"true\"></ion-range>        \n                                </ion-list>\n                                <ion-list *ngSwitchCase=\"'item'\" class=\"list-form\"  lines=\"none\">\n                                    <ion-item [ngStyle]=\" {'--background': entry?.isChecked===true ? backgroundChecked : background}\" button class=\"list-form-item\" *ngFor=\"let entry of item.preguntas as Preguntas;index as i\" (click)=\"select(entry,item.preguntas,i)\">\n                                        <ion-label [ngStyle]=\"{'--color': entry?.isChecked===true ? '#FFF' : '#000'}\" class=\"list-form-item-label\" > {{entry.val}}</ion-label>\n                                    </ion-item>\n                                </ion-list>\n                            </ion-col>\n                                </div>\n                    </ng-template> \n                    <ng-template swiperSlide>\n                        <div class=\"slide-container\" style=\"padding-top: 160px;\">\n                                <div class=\"ion-text-center\" style=\"height: 50%;\">\n                                    <ion-label class=\"ion-text-center\">\n                                        <ion-icon src=\"../../assets/icon/text.svg\" style=\"width:300px;height:178px;\"></ion-icon>         \n                                    </ion-label>\n                                </div>\n                                <div class=\"ion-text-center\" style=\"height: 50%;\" >\n                                    <ion-label class=\"ion-text-center\">\n                                        <ion-icon src=\"../../assets/icon/hands.svg\" style=\"width:300px;height:250px;\"></ion-icon>         \n                                    </ion-label>\n                                </div>\n                                </div>\n                    </ng-template> \n                </swiper>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n</ion-content>  \n<ion-footer class=\"ion-no-border\">\n    <ion-grid style=\"padding-left: 35px;\n    padding-right: 35px;\">\n        <ion-row>\n            <ion-col size=\"12\" *ngIf=\"bandera\" class=\"ion-text-center\" >\n                <ion-button class=\"btn-enviar\" (click)=\"enviar()\">\n                    ENVIAR FORMULARIO\n                </ion-button>\n            </ion-col>\n            <ion-col size=\"12\" *ngIf=\"finalized\" class=\"ion-text-center\" >\n                <ion-button class=\"btn-enviar\" (click)=\"enviar()\"  [routerLink]=\"['/principal/inicio']\">\n                    VOLVER AL MENU\n                </ion-button>\n            </ion-col>\n            <ion-col size=\"12\" *ngIf=\"!bandera && !finalized\" class=\"ion-text-center\">\n                <ion-button class=\"btn\" (click)=\"next()\">\n                    <ion-icon src=\"../../assets/icon/chevron-forward.svg\" style=\"width:35px ;height:34px;position: absolute;\"></ion-icon>\n                </ion-button>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n</ion-footer>";
+module.exports = "<ion-content padding  scrollEvents=\"true\" fullscreen=\"true\">\n    <!--  (slideChange)=\"slideChanges()\" (slideChangeTransitionEnd)=\"onBeforeTransition()\" -->\n    <ion-grid style=\"padding:0px\">\n        <ion-row style=\"padding:0px\">\n            <ion-col size=\"12\" style=\"padding:0px\">\n                <swiper #swiper [config]=\"config\">\n                     <ng-template swiperSlide *ngFor=\"let item of dinamicForm;index as i\">\n                        <div class=\"slide-container\"> \n                         <div class=\"main-header\"  align=\"end\">\n                            <span  style=\"color:#ffff\">\n                                <ion-icon name=\"close-circle-outline\"  class=\"close-icon\" (click)=\"close()\"></ion-icon>\n                            </span>\n                             <div class=\"ion-text-center col-titulo\">\n                                        <label><p class=\"titulo\">\n                                            {{i+1}} / 7\n                                        </p> <p class=\"titulo\">\n                                            {{item.title}}\n                                        </p></label>\n                                    </div>\n                             </div>\n                             <ion-col [ngSwitch]=\"item.type\">\n                                <ion-list *ngSwitchCase=\"'range'\" lines=\"none\"  style=\"background:#f4f4f4;\"> \n                                                <ion-range (ionChange)=\"ageRange($event)\" [min]=\"0\" [max]=\"18\" [value]=\"5\" [pin]=\"true\" [snaps]=\"true\"></ion-range>        \n                                </ion-list>\n                                <ion-list *ngSwitchCase=\"'item'\" class=\"list-form\"  lines=\"none\">\n                                    <ion-item [ngStyle]=\" {'--background': entry?.isChecked===true ? backgroundChecked : background}\" button class=\"list-form-item\" *ngFor=\"let entry of item.preguntas as Preguntas;index as i\" (click)=\"select(entry,item,i)\">\n                                        <ion-label [ngStyle]=\"{'--color': entry?.isChecked===true ? '#FFF' : '#000'}\" class=\"list-form-item-label\" > {{entry.val}}</ion-label>\n                                    </ion-item>\n                                </ion-list>\n                            </ion-col>\n                                </div>\n                    </ng-template> \n                    <ng-template swiperSlide>\n                        <div class=\"slide-container\" style=\"padding-top: 160px;\">\n                                <div class=\"ion-text-center\" style=\"height: 50%;\">\n                                    <ion-label class=\"ion-text-center\">\n                                        <ion-icon src=\"../../assets/icon/text.svg\" style=\"width:300px;height:178px;\"></ion-icon>         \n                                    </ion-label>\n                                </div>\n                                <div class=\"ion-text-center\" style=\"height: 50%;\" >\n                                    <ion-label class=\"ion-text-center\">\n                                        <ion-icon src=\"../../assets/icon/hands.svg\" style=\"width:300px;height:250px;\"></ion-icon>         \n                                    </ion-label>\n                                </div>\n                                </div>\n                    </ng-template> \n                </swiper>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n</ion-content>  \n<ion-footer class=\"ion-no-border\">\n    <ion-grid style=\"padding-left: 35px;\n    padding-right: 35px;\">\n        <ion-row>\n            <ion-col size=\"12\" *ngIf=\"bandera\" class=\"ion-text-center\" >\n                <ion-button class=\"btn-enviar\" (click)=\"enviar()\">\n                    ENVIAR FORMULARIO\n                </ion-button>\n            </ion-col>\n            <ion-col size=\"12\" *ngIf=\"finalized\" class=\"ion-text-center\" >\n                <ion-button class=\"btn-enviar\" (click)=\"backHome()\"  [routerLink]=\"['/principal/inicio']\">\n                    VOLVER AL MENU\n                </ion-button>\n            </ion-col>\n            <ion-col size=\"12\" *ngIf=\"!bandera && !finalized\" class=\"ion-text-center\">\n                <ion-button class=\"btn\" (click)=\"next()\" [disabled]=\"!selected\">\n                    <ion-icon src=\"../../assets/icon/chevron-forward.svg\" style=\"width:35px ;height:34px;position: absolute;\"></ion-icon>\n                </ion-button>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n</ion-footer>";
 
 /***/ }),
 
@@ -281,7 +342,7 @@ module.exports = "<ion-content padding  scrollEvents=\"true\" fullscreen=\"true\
   \*******************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('[{"key":"victima","title":"¿Para quién estas pidiendo ayuda?","type":"item","preguntas":[{"id":1,"val":"Para mi"},{"id":2,"val":"Para mi hermano/a"},{"id":3,"val":"Para mi vecino/a"},{"id":4,"val":"Otro"}]},{"key":"motivo","title":"Indicá el motivo por el cuál está pidiendo ayuda","type":"item","preguntas":[{"id":1,"val":"Amenazas"},{"id":2,"val":"Insultos diarios"},{"id":3,"val":"Castigos prohibiendo comida"},{"id":4,"val":"Encierros por mucho tiempo"},{"id":5,"val":"Tocamientos, manoseos, abrazos indeseados"},{"id":6,"val":"Hacer o ver cosas de manera obligada"},{"id":8,"val":"Otro motivo. Especificar"}]},{"key":"agresor","type":"item","title":"¿Quién es la persona agresora?","preguntas":[{"id":1,"val":"Papá/Mamá"},{"id":2,"val":"Padrastro/Madrastra"},{"id":3,"val":"Tío/Tía"},{"id":4,"val":"Vecino/a"},{"id":5,"val":"Maestro/a"},{"id":6,"val":"Profesor/a"},{"id":7,"val":"Un amigo/a"},{"id":8,"val":"Un extraño/a"},{"id":9,"val":"Otro motivo. Especificar"}]},{"key":"genero_agresor","title":" Género de la persona agresora","type":"item","preguntas":[{"id":1,"val":"Mujer"},{"id":2,"val":"Varon"}]},{"key":"edad","type":"range","title":"Cuantos años tenes?"},{"key":"genero","type":"item","title":"Indica tu genero","preguntas":[{"id":1,"val":"Mujer"},{"id":2,"val":"Varon"},{"id":3,"val":"Prefiero no decirlo"},{"id":4,"val":"Otro. especificar"}]},{"key":"lugar","title":"Lugar en que ocurre la violencia","type":"item","preguntas":[{"id":1,"val":"Mi casa"},{"id":2,"val":"Casa del vecino"},{"id":3,"val":"Casa de un familiar"},{"id":4,"val":"Escuela"},{"id":5,"val":"Club"},{"id":6,"val":"Otro. Especificar"}]}]');
+module.exports = JSON.parse('[{"key":"victima","title":"¿Para quién estas pidiendo ayuda?","type":"item","multiple":false,"preguntas":[{"id":1,"val":"Para mi"},{"id":2,"val":"Para mi hermano/a"},{"id":3,"val":"Para mi vecino/a"},{"id":4,"val":"Otro"}]},{"key":"motivo","title":"Indicá el motivo por el cuál está pidiendo ayuda","type":"item","multiple":true,"preguntas":[{"id":1,"val":"Amenazas"},{"id":2,"val":"Insultos diarios"},{"id":3,"val":"Castigos prohibiendo comida"},{"id":4,"val":"Encierros por mucho tiempo"},{"id":5,"val":"Tocamientos, manoseos, abrazos indeseados"},{"id":6,"val":"Hacer o ver cosas de manera obligada"},{"id":8,"val":"Otro motivo. Especificar"}]},{"key":"agresor","type":"item","multiple":true,"title":"¿Quién es la persona agresora?","preguntas":[{"id":1,"val":"Papá/Mamá"},{"id":2,"val":"Padrastro/Madrastra"},{"id":3,"val":"Tío/Tía"},{"id":4,"val":"Vecino/a"},{"id":5,"val":"Maestro/a"},{"id":6,"val":"Profesor/a"},{"id":7,"val":"Un amigo/a"},{"id":8,"val":"Un extraño/a"},{"id":9,"val":"Otro motivo. Especificar"}]},{"key":"genero_agresor","title":" Género de la persona agresora","type":"item","multiple":false,"preguntas":[{"id":1,"val":"Mujer"},{"id":2,"val":"Varon"}]},{"key":"edad","type":"range","multiple":false,"title":"Cuantos años tenes?"},{"key":"genero","type":"item","multiple":false,"title":"Indica tu genero","preguntas":[{"id":1,"val":"Mujer"},{"id":2,"val":"Varon"},{"id":3,"val":"Prefiero no decirlo"},{"id":4,"val":"Otro. especificar"}]},{"key":"lugar","title":"Lugar en que ocurre la violencia","type":"item","multiple":true,"preguntas":[{"id":1,"val":"Mi casa"},{"id":2,"val":"Casa del vecino"},{"id":3,"val":"Casa de un familiar"},{"id":4,"val":"Escuela"},{"id":5,"val":"Club"},{"id":6,"val":"Otro. Especificar"}]}]');
 
 /***/ })
 

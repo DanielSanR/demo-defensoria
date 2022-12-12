@@ -2,6 +2,7 @@
     "key": "victima",
     "title":"¿Para quién estas pidiendo ayuda?",
     "type": "item",
+    "multiple": false,
     "preguntas":[
             { "id": 1, "val": "Para mi" },
             { "id": 2, "val": "Para mi hermano/a" },
@@ -14,6 +15,7 @@
         "key": "motivo",
         "title":"Indicá el motivo por el cuál está pidiendo ayuda",
         "type": "item",
+        "multiple": true,
          "preguntas":[
           { "id": 1, "val": "Amenazas" },
           { "id": 2, "val": "Insultos diarios" },
@@ -27,6 +29,7 @@
         {
       "key": "agresor",
       "type": "item",
+      "multiple": true,
       "title":"¿Quién es la persona agresora?",
       "preguntas":[
         
@@ -45,6 +48,7 @@
     "key": "genero_agresor",
     "title":" Género de la persona agresora",
     "type": "item",
+    "multiple": false,
      "preguntas": [
       
           { "id": 1, "val": "Mujer" },
@@ -54,12 +58,14 @@
       {
         "key": "edad",
         "type": "range",
+        "multiple": false,
         "title": "Cuantos años tenes?"
         }
      , 
       {
         "key": "genero",
         "type": "item",
+        "multiple": false,
         "title":"Indica tu genero",
         "preguntas": [
           { "id": 1, "val": "Mujer" },
@@ -72,6 +78,7 @@
         "key": "lugar",
         "title":"Lugar en que ocurre la violencia",
         "type": "item",
+        "multiple": true,
         "preguntas": [
           { "id": 1, "val": "Mi casa" },
           { "id": 2, "val": "Casa del vecino" },
