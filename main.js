@@ -708,9 +708,10 @@ __webpack_require__.r(__webpack_exports__);
 // The list of file replacements can be found in `angular.json`.
 const environment = {
     production: false,
-    url: 'http://147.182.234.24:27017/api'
+    url: 'https://yocuento.org/api'
 };
 /*
+'https://yocuento.org/api'
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
  *
